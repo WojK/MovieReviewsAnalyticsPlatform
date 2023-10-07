@@ -78,7 +78,7 @@ export function AnalyzeOwnReviewsTemplate() {
               current={currentStep}
               items={[
                 {
-                  title: "Upload prepared csv file with your movie reviews",
+                  title: "Upload prepared excel file with your movie reviews",
                 },
                 {
                   title: "Select model to sentimental analysis",
@@ -113,7 +113,7 @@ export function AnalyzeOwnReviewsTemplate() {
                 type="file"
                 id="file-upload"
                 className="hidden"
-                accept=".csv"
+                accept=".xlsx"
                 onChange={uploadFileHandler}
               ></input>
               <p className="text-customBlue text-lg">{fileName}</p>

@@ -13,7 +13,7 @@ from features.summarization.summarizer_bert import summarize_many_bert
 from features.sentimentAnalysis.sentiment_BERT import count_proba_BERT_many_texts
 
 
-def analyze_sentiment_csv(df_reviews, method):
+def analyze_sentiment_file(df_reviews, method):
     if method == 'logisticRegressionCV':
         return count_proba_logisticRegression_cv_many_texts(df_reviews)
     elif method == 'logisticRegressionTFIDF':
@@ -28,7 +28,7 @@ def analyze_sentiment_csv(df_reviews, method):
         return count_proba_LSTM_many_texts(df_reviews)
 
 
-def extract_keywords_csv(df_reviews, method, n_kw):
+def extract_keywords_file(df_reviews, method, n_kw):
     if method == 'keybert':
         return get_keywords_many_texts_keyBert(df_reviews, n_kw)
     elif method == 'rake':
@@ -37,7 +37,7 @@ def extract_keywords_csv(df_reviews, method, n_kw):
         return get_keywords_many_texts_yake(df_reviews, n_kw)
 
 
-def summarize_texts_csv(reviews, method, ratio):
+def summarize_texts_file(reviews, method, ratio):
     if method == 'bert':
         return summarize_many_bert(reviews, ratio)
     elif method == 'gpt2':

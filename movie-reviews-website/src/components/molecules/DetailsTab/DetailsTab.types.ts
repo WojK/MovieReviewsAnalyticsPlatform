@@ -1,4 +1,5 @@
 type DetailsItem = {
+  title: string;
   review: string;
   sentiment: string;
   keywords: string[];

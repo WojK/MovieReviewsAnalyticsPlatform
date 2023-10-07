@@ -5,6 +5,7 @@ import { Spin, Tabs, TabsProps } from "antd";
 import { OverviewTab } from "@/components/molecules/OverviewTab";
 import { DetailsTab } from "@/components/molecules/DetailsTab";
 import { api } from "@/api";
+import { redirect } from "next/navigation";
 
 export function ResultsTemplate() {
   const {
@@ -21,18 +22,33 @@ export function ResultsTemplate() {
   const [reviewsNeg, setReviewsNeg] = useState(0);
   const [allKeywords, setAllKeywords] = useState([]);
   const [reviewsWordsAvg, setReviewsWordsAvg] = useState(0);
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState<string[]>([]);
+  const [titles, setTitles] = useState<string[]>([]);
   const [reviewsKeywords, setReviewsKeywords] = useState([]);
   const [reviewsSentiments, setReviewsSentiments] = useState<any[]>([]);
   const [reviewsSummarizations, setReviewsSummarizations] = useState([]);
   const [wordCloud, setWordCloud] = useState<any>();
 
   const isLoading = isLoadingAnalyze || isLoadingWordCloud;
-  let results = [];
-  for (let i = 0; i < reviews.length; i++) {
+
+  if (isLoading === false && reviews.length === 0) {
+    redirect("/analyze-own-reviews");
+  }
+
+  let results: {
+    key: string;
+    title: string;
+    review: string;
+    sentiment: any;
+    keywords: string[];
+    summarization: string;
+  }[] = [];
+
+  for (let i = 0; i < reviews?.length || 0; i++) {
     const prob_pos = reviewsSentiments[i].prob_pos;
     results.push({
       key: i.toString(),
+      title: titles[i],
       review: reviews[i],
       sentiment: prob_pos,
       keywords: reviewsKeywords[i],
@@ -72,7 +88,7 @@ export function ResultsTemplate() {
     fd.append("n_keywords", keywordsExtractionNumber);
     fd.append("sentiment_analysis_method", sentimentalAnalysisModel);
 
-    fetch(`${api}/analyze-csv`, { method: "POST", body: fd })
+    fetch(`${api}/analyze-file`, { method: "POST", body: fd })
       .then((response) => response.json())
       .then((json) => {
         setReviewsNeg(json.reviewsNeg);
@@ -82,7 +98,8 @@ export function ResultsTemplate() {
         setReviewsSentiments(json.sentiments);
         setReviewsSummarizations(json.summarizations);
         setReviewsWordsAvg(json.wordsAvg);
-        setReviews(json.reviews);
+        setTitles(json.movieTitles);
+        setReviews(json.reviews || []);
         setIsLoadingAnalyze(false);
       })
       .catch((e) => console.log(e));
@@ -90,7 +107,7 @@ export function ResultsTemplate() {
     const fd2 = new FormData();
     fd2.append("file", csvFile);
 
-    fetch(`${api}/word-cloud-csv`, { method: "POST", body: fd2 })
+    fetch(`${api}/word-cloud-file`, { method: "POST", body: fd2 })
       .then((response) => {
         return response.blob();
       })

@@ -1,3 +1,4 @@
+import io
 import os
 import pandas as pd
 from fastapi import FastAPI, UploadFile, Form
@@ -16,7 +17,8 @@ from features.sentimentAnalysis.sentiment_BERT import count_proba_BERT_text
 from features.sentimentAnalysis.sentiment_LSTM import count_proba_LSTM_text
 from features.wordsAvg.words_avg import count_words_avg
 from features.wordCloud.word_cloud import generate_word_cloud
-from features.analyzeCsvUtils.csvUtils import analyze_sentiment_csv, summarize_texts_csv, extract_keywords_csv, count_reviews_positive_and_negative, get_all_keywords
+from features.analyzeFileUtils.fileUtils import analyze_sentiment_file, summarize_texts_file, extract_keywords_file, \
+    count_reviews_positive_and_negative, get_all_keywords
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import Annotated
@@ -149,28 +151,36 @@ def get_avg_words(body: WordsAvgBody):
     return {"words_avg": result}
 
 
-@app.post("/word-cloud-csv")
-def csv_get_word_cloud(file: Annotated[UploadFile, Form()]):
-    df_reviews = pd.read_csv(file.file)['review']
+@app.post("/word-cloud-file")
+def file_get_word_cloud(file: Annotated[UploadFile, Form()]):
+    f = file.file.read()
+    xlsx = io.BytesIO(f)
+    df = pd.read_excel(xlsx)
+    df_reviews = df['review']
     img_output = os.path.expanduser('~\\WordCloud\\wordCloud.png')
 
     generate_word_cloud(df_reviews, img_output)
     return FileResponse(img_output)
 
 
-@app.post("/analyze-csv")
-def csv_analyze(file: Annotated[UploadFile, Form()],
-                summarization_method: Annotated[str, Form()],
-                summarization_ratio: Annotated[int, Form()],
-                keywords_extraction_method: Annotated[str, Form()],
-                n_keywords: Annotated[int, Form()],
-                sentiment_analysis_method: Annotated[str, Form()]):
-    df_reviews = pd.read_csv(file.file)['review']
-    reviews = [review[1:-1] for review in df_reviews]
+@app.post("/analyze-file")
+def file_analyze(file: Annotated[UploadFile, Form()],
+                 summarization_method: Annotated[str, Form()],
+                 summarization_ratio: Annotated[int, Form()],
+                 keywords_extraction_method: Annotated[str, Form()],
+                 n_keywords: Annotated[int, Form()],
+                 sentiment_analysis_method: Annotated[str, Form()]):
+    f = file.file.read()
+    xlsx = io.BytesIO(f)
+    df = pd.read_excel(xlsx)
+    df_reviews = df['review']
+    titles = [title for title in df['title']]
+    reviews = [review for review in df_reviews]
     words_avg = count_words_avg(df_reviews)
-    summarizations = summarize_texts_csv(reviews, summarization_method, summarization_ratio)
-    sentiments = analyze_sentiment_csv(df_reviews, sentiment_analysis_method)
+    summarizations = summarize_texts_file(reviews, summarization_method, summarization_ratio)
+    sentiments = analyze_sentiment_file(df_reviews, sentiment_analysis_method)
     pos, neg = count_reviews_positive_and_negative(sentiments)
-    keywords = extract_keywords_csv(df_reviews, keywords_extraction_method, n_keywords)
+    keywords = extract_keywords_file(df_reviews, keywords_extraction_method, n_keywords)
     all_keywords = get_all_keywords(keywords)
-    return {"wordsAvg": words_avg, "summarizations": summarizations, "sentiments": sentiments, "keywords": keywords, "allKeywords": all_keywords, "reviewsPos":pos, "reviewsNeg":neg, "reviews": reviews}
+    return {"movieTitles": titles, "wordsAvg": words_avg, "summarizations": summarizations, "sentiments": sentiments,
+            "keywords": keywords, "allKeywords": all_keywords, "reviewsPos": pos, "reviewsNeg": neg, "reviews": reviews}

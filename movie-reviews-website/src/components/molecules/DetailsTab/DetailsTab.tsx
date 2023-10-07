@@ -11,6 +11,7 @@ const sentimentOptions: SelectProps["options"] = [
 
 type DataType = {
   key: string;
+  title: string;
   review: string;
   sentiment: string;
   keywords: string[];
@@ -40,6 +41,7 @@ export function DetailsTab({ results, allKeywords }: DetailsTabProps) {
       .map((result, index) => {
         return {
           review: result.review,
+          title: result.title,
           sentiment: result.sentiment,
           summarization: result.summarization,
           keywords: result.keywords,
@@ -63,6 +65,7 @@ export function DetailsTab({ results, allKeywords }: DetailsTabProps) {
       .map((result, index) => {
         return {
           review: result.review,
+          title: result.title,
           sentiment: result.sentiment,
           summarization: result.summarization,
           keywords: result.keywords,
@@ -86,6 +89,7 @@ export function DetailsTab({ results, allKeywords }: DetailsTabProps) {
       .map((result, index) => {
         return {
           review: result.review,
+          title: result.title,
           sentiment: result.sentiment,
           summarization: result.summarization,
           keywords: result.keywords,
@@ -154,6 +158,7 @@ export function DetailsTab({ results, allKeywords }: DetailsTabProps) {
           </div>
         </div>
         <Table bordered dataSource={data} pagination={{ pageSize: 5 }}>
+          <Column title="Title" dataIndex="title" key="title" />
           <Column
             title="Review"
             dataIndex="review"
@@ -170,7 +175,7 @@ export function DetailsTab({ results, allKeywords }: DetailsTabProps) {
               return (
                 <button
                   onClick={handleOnReviewClick(review)}
-                  className="text-left	max-w-[650px]"
+                  className="text-left max-w-[550px]"
                 >
                   {fragmentToDisplay}
                 </button>
