@@ -25,6 +25,7 @@ const columns: ColumnsType<DataType> = [
     title: "Description",
     dataIndex: "description",
     key: "description",
+    className: "max-w-[500px]",
   },
 ];
 

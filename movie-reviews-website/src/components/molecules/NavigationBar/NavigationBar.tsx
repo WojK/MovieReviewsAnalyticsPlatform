@@ -2,6 +2,7 @@ import React from "react";
 import { NavigationBarProps } from "./NavigationBar.types";
 import { Film } from "lucide-react";
 import Link from "next/link";
+import { UserButton } from "@clerk/nextjs";
 
 export function NavigationBar(props: NavigationBarProps) {
   return (
@@ -18,6 +19,9 @@ export function NavigationBar(props: NavigationBarProps) {
         </li>
         <li>
           <Link href="/analyze-own-reviews">Analyze own reviews</Link>
+        </li>
+        <li>
+          <UserButton afterSignOutUrl="/" />
         </li>
       </ul>
     </nav>

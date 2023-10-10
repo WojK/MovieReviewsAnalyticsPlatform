@@ -44,7 +44,7 @@ export function MainTemplate(props: MainTemplateProps) {
           />
         </div>
       </section>
-      <div className="py-16 w-[800px] mx-auto flex flex-col items-center gap-y-6">
+      <div className="py-16 w-[750px] mx-auto flex flex-col items-center gap-y-6">
         <p className="text-center text-bold text-2xl">
           Our solutions empowers the business to gain insights on customer
           satisfaction and feedback without any need for manual intervention or
@@ -52,7 +52,7 @@ export function MainTemplate(props: MainTemplateProps) {
         </p>
         <Link
           href="/analyze-own-reviews"
-          className="text-2xl border-2 border-customBlue px-6 py-2 rounded-2xl"
+          className="text-xl border-2 border-customBlue px-6 py-2 rounded-2xl"
         >
           Try it by yourself!
         </Link>

@@ -67,8 +67,8 @@ export function AnalyzeOwnReviewsTemplate() {
   };
 
   return (
-    <div className="px-12 py-12 min-h-[80vh]">
-      <div className="flex gap-x-[25vw] ml-8 mr-[250px]">
+    <div className="px-12 py-16 min-h-[80vh]">
+      <div className="flex gap-x-[18vw] ml-8">
         <div>
           <Title title="How it works?" />
           <div className="mt-14 ml-6">
