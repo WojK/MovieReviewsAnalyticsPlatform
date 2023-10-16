@@ -1,5 +1,6 @@
 import io
 import os
+import uuid
 import pandas as pd
 from fastapi import FastAPI, UploadFile, Form
 from features.keywordsExtraction.keywords_yake import get_keywords_yake
@@ -151,13 +152,13 @@ def get_avg_words(body: WordsAvgBody):
     return {"words_avg": result}
 
 
-@app.post("/word-cloud-file")
-def file_get_word_cloud(file: Annotated[UploadFile, Form()]):
+@app.post("/word-cloud-file/{name}")
+def file_get_word_cloud(file: Annotated[UploadFile, Form()], name: str):
     f = file.file.read()
     xlsx = io.BytesIO(f)
     df = pd.read_excel(xlsx)
     df_reviews = df['review']
-    img_output = os.path.expanduser('~\\WordCloud\\wordCloud.png')
+    img_output = os.path.expanduser(f'~\\WordCloud\\{name}.png')
 
     generate_word_cloud(df_reviews, img_output)
     return FileResponse(img_output)

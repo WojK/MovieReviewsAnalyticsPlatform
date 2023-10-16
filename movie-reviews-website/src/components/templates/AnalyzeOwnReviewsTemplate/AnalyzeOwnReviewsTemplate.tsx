@@ -68,7 +68,7 @@ export function AnalyzeOwnReviewsTemplate() {
 
   return (
     <div className="px-12 py-16 min-h-[80vh]">
-      <div className="flex gap-x-[18vw] ml-8">
+      <div className="flex ml-8 gap-x-[14vw]">
         <div>
           <Title title="How it works?" />
           <div className="mt-14 ml-6">
@@ -99,25 +99,25 @@ export function AnalyzeOwnReviewsTemplate() {
             />
           </div>
         </div>
+        <div className="flex flex-col items-center mb-5 gap-y-6 mt-8">
+          <label
+            htmlFor="file-upload"
+            className="cursor-pointer border flex flex-col items-center gap-y-0.5 justify-center border-dashed rounded-full w-[110px] h-[110px]"
+          >
+            <Plus size={10} />
+            <p className="text-center">Click to Upload</p>
+          </label>
+          <input
+            type="file"
+            id="file-upload"
+            className="hidden"
+            accept=".xlsx"
+            onChange={uploadFileHandler}
+          ></input>
+          <p className="text-customBlue text-lg">{fileName}</p>
+        </div>
         <div>
-          <div className=" flex flex-col gap-y-6 items-start">
-            <div className="flex flex-col items-center w-full mb-5 gap-y-6">
-              <label
-                htmlFor="file-upload"
-                className="cursor-pointer border flex flex-col items-center gap-y-0.5 justify-center border-dashed rounded-full w-[110px] h-[110px]"
-              >
-                <Plus size={10} />
-                <p className="text-center">Click to Upload</p>
-              </label>
-              <input
-                type="file"
-                id="file-upload"
-                className="hidden"
-                accept=".xlsx"
-                onChange={uploadFileHandler}
-              ></input>
-              <p className="text-customBlue text-lg">{fileName}</p>
-            </div>
+          <div className=" flex flex-col gap-y-6 items-start mt-8">
             <div>
               <p className="mb-2">Sentimental analysis model:</p>
               <Select

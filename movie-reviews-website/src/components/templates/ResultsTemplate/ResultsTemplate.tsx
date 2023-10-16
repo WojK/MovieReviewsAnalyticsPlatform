@@ -6,16 +6,19 @@ import { OverviewTab } from "@/components/molecules/OverviewTab";
 import { DetailsTab } from "@/components/molecules/DetailsTab";
 import { api } from "@/api";
 import { redirect } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 
 export function ResultsTemplate() {
   const {
     sentimentalAnalysisModel,
+    sentimentalAnalysisModelName,
     keywordsExtractionModel,
     summarizationModel,
     csvFile,
     summarizationRatio,
     keywordsExtractionNumber,
   } = useAppContextState();
+
   const [isLoadingAnalyze, setIsLoadingAnalyze] = useState<boolean>(true);
   const [isLoadingWordCloud, setIsLoadingWordCloud] = useState<boolean>(true);
   const [reviewsPos, setReviewsPos] = useState(0);
@@ -28,6 +31,9 @@ export function ResultsTemplate() {
   const [reviewsSentiments, setReviewsSentiments] = useState<any[]>([]);
   const [reviewsSummarizations, setReviewsSummarizations] = useState([]);
   const [wordCloud, setWordCloud] = useState<any>();
+  const [createdHistory, setCreatedHistory] = useState<boolean>(false);
+  const { userId } = useAuth();
+  const [wordsCloudName, setWordsCloudName] = useState("");
 
   const isLoading = isLoadingAnalyze || isLoadingWordCloud;
 
@@ -62,6 +68,7 @@ export function ResultsTemplate() {
       label: "Overview",
       children: (
         <OverviewTab
+          modelName={sentimentalAnalysisModelName}
           positiveReviewsCount={reviewsPos}
           negativeReviewsCount={reviewsNeg}
           averageWordsCount={reviewsWordsAvg}
@@ -106,9 +113,14 @@ export function ResultsTemplate() {
 
     const fd2 = new FormData();
     fd2.append("file", csvFile);
-
-    fetch(`${api}/word-cloud-file`, { method: "POST", body: fd2 })
+    const wcName = crypto.randomUUID();
+    setWordsCloudName(wcName);
+    fetch(`${api}/word-cloud-file/${wcName}`, {
+      method: "POST",
+      body: fd2,
+    })
       .then((response) => {
+        console.log(response);
         return response.blob();
       })
       .then((blob) => {
@@ -118,6 +130,58 @@ export function ResultsTemplate() {
       })
       .catch((e) => console.log(e));
   }, []);
+
+  useEffect(() => {
+    if (isLoading === false && createdHistory === false) {
+      setCreatedHistory(true);
+
+      const reviewsToFetch = [];
+
+      for (let i = 0; i < reviews.length; i++) {
+        const r = {
+          title: titles[i],
+          text: reviews[i],
+          summarization: reviewsSummarizations[i],
+          sentiment:
+            reviewsSentiments[i].prob_pos > 0.5 ? "Positive" : "Negative",
+          positiveProbability: parseFloat(reviewsSentiments[i].prob_pos),
+          keywords: reviewsKeywords[i],
+        };
+        reviewsToFetch.push(r);
+      }
+
+      fetch("http://localhost:3000/api/history", {
+        method: "POST",
+        body: JSON.stringify({
+          userId: userId,
+          title: csvFile.name,
+          sentimentalAnalysisModel: sentimentalAnalysisModelName,
+          posReviews: reviewsPos,
+          negReviews: reviewsNeg,
+          wordsAvg: reviewsWordsAvg,
+          wordsCloudPath: wordsCloudName,
+          reviews: reviewsToFetch,
+        }),
+      }).catch((e) => {
+        console.log(e);
+      });
+    }
+  }, [
+    createdHistory,
+    csvFile.name,
+    isLoading,
+    reviews,
+    reviewsKeywords,
+    reviewsNeg,
+    reviewsPos,
+    reviewsSentiments,
+    reviewsSummarizations,
+    reviewsWordsAvg,
+    sentimentalAnalysisModelName,
+    titles,
+    userId,
+    wordsCloudName,
+  ]);
 
   return (
     <div className="px-16 py-12">

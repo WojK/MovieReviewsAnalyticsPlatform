@@ -5,21 +5,18 @@ import { ResultBadge } from "@/components/atoms/ResultBadge";
 import Image from "next/image";
 
 export function OverviewTab({
+  modelName,
   positiveReviewsCount,
   negativeReviewsCount,
   averageWordsCount,
   image,
 }: OverviewTabProps) {
-  const { sentimentalAnalysisModelName } = useAppContextState();
-
   return (
     <div className="mt-6 flex gap-x-5">
       <div>
         <h2 className="text-lg font-bold">
           Results based on
-          <span className="text-customBlue ml-2">
-            {sentimentalAnalysisModelName}
-          </span>
+          <span className="text-customBlue ml-2">{modelName}</span>
         </h2>
         <div className="flex gap-x-[5vw] mt-8">
           <div className="grid grid-cols-2 mt-8 gap-y-5 w-[550px] h-fit">

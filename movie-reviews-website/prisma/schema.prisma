@@ -21,13 +21,14 @@ model User {
 model MoviesAnalysis {
   id Int @id @default(autoincrement())
   title String
+  sentimentalAnalysisModel String @default("")
   positiveReviews Int
   negiveReviews Int 
   created DateTime @default(now())
   wordsAvg Int
   wordsCloudPath String
   user User @relation(fields: [userId], references: [id])
-  userId String @unique
+  userId String
   reviews Review[]
 }
 
@@ -42,6 +43,7 @@ model Review {
   analysisId Int
   movie Movie @relation(fields: [movieId], references: [id])
   movieId Int
+  keywords Keywords[]
 }
 
 enum ESentiment {
@@ -54,5 +56,11 @@ model Movie {
   title String @unique
   positiveReviewsCount Int
   negativeReviewsCount Int
+  reviews Review[]
+}
+
+model Keywords {
+  id Int @id @default(autoincrement())
+  word String @unique
   reviews Review[]
 }

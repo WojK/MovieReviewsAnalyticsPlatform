@@ -6,7 +6,7 @@ import { Brain, BarChart3, Heart, Text, Hash } from "lucide-react";
 import { Card } from "@/components/molecules/Card";
 import Link from "next/link";
 
-export function MainTemplate(props: MainTemplateProps) {
+export async function MainTemplate(props: MainTemplateProps) {
   return (
     <>
       <div className="px-28 py-12">

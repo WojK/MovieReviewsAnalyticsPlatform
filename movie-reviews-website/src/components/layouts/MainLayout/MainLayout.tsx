@@ -22,8 +22,10 @@ export function MainLayout({ children }: MainLayoutProps) {
                 csvFile: null,
               }}
             >
-              <NavigationBar />
-              {children}
+              <div className="min-h-[calc(100vh-90px)]">
+                <NavigationBar />
+                {children}
+              </div>
               <Footer />
             </AppContextProvider>
           </main>
