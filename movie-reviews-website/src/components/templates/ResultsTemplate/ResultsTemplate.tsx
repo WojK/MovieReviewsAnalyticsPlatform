@@ -7,6 +7,7 @@ import { DetailsTab } from "@/components/molecules/DetailsTab";
 import { api } from "@/api";
 import { redirect } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
+import { revalidatePath } from "next/cache";
 
 export function ResultsTemplate() {
   const {
@@ -162,9 +163,14 @@ export function ResultsTemplate() {
           wordsCloudPath: wordsCloudName,
           reviews: reviewsToFetch,
         }),
-      }).catch((e) => {
-        console.log(e);
-      });
+      })
+        .then(() => {
+          revalidatePath("/history");
+          revalidatePath("/user-ranking");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
   }, [
     createdHistory,

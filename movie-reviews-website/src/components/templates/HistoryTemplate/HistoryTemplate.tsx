@@ -1,12 +1,10 @@
 import { Title } from "@/components/atoms/Title";
 import React from "react";
-import { HISTORY_MOCK } from "@/__mocks__/history.mocks";
 import { HistoryElement } from "@/components/atoms/HistoryElement";
 import Link from "next/link";
 import { PrismaClient } from "@prisma/client";
 import { auth } from "@clerk/nextjs";
-
-export const revalidate = 0;
+import { BarChartHorizontalBig } from "lucide-react";
 
 const getUserAnalysisHistory = async () => {
   const prisma = new PrismaClient();
@@ -53,7 +51,18 @@ export async function HistoryTemplate() {
 
   return (
     <div className="py-12 px-14">
-      <Title title="History" />
+      <div className="flex flex-row gap-x-16 justify-between max-w-[90vw]">
+        <Title title="History" />
+        {historyData.length !== 0 && (
+          <Link
+            href="/user-ranking"
+            className="flex gap-x-3 items-center border px-4 py-1 rounded-lg border-customBlue"
+          >
+            <BarChartHorizontalBig size={32} color="#106557" />
+            <p className="text-xl font-bold">Movie Ranking</p>
+          </Link>
+        )}
+      </div>
       {historyData.length === 0 && (
         <div className="flex justify-center">
           <Link

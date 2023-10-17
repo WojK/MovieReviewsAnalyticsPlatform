@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 import { NextRequest } from "next/server";
 
 const prisma = new PrismaClient();
@@ -34,7 +35,7 @@ export async function POST(request: Request) {
     (m: any) => moviesInsertedTitles.indexOf(m) == -1
   );
 
-  const moviesInsertedDb = await prisma.movie.createMany({
+  await prisma.movie.createMany({
     data: newMovieTitlesToInsert.map((m) => {
       return {
         title: m as string,
@@ -72,6 +73,7 @@ export async function POST(request: Request) {
         isPublic: true,
         analysisId: movieAnalysisDb.id,
         movieId: reviewMovie?.id || 0,
+        authorId: userId,
       },
     });
 
@@ -123,6 +125,7 @@ export async function POST(request: Request) {
     });
   }
 
+  revalidatePath("/history");
   return new Response("Added data to user history", { status: 200 });
 }
 

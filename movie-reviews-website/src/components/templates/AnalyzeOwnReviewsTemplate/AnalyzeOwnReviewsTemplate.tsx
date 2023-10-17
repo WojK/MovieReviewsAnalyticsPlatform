@@ -92,9 +92,6 @@ export function AnalyzeOwnReviewsTemplate() {
                 {
                   title: "Click the analyze button",
                 },
-                {
-                  title: "Finally you will be redirected to page with results",
-                },
               ]}
             />
           </div>

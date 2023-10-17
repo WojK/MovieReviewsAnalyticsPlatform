@@ -4,6 +4,8 @@ import { Title } from "@/components/atoms/Title";
 import { Spin, Tabs, TabsProps } from "antd";
 import { OverviewTab } from "@/components/molecules/OverviewTab";
 import { DetailsTab } from "@/components/molecules/DetailsTab";
+import { Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function AnalysisTemplate({ params }: AnalysisTemplateProps) {
   const [isLoadingAnalyze, setIsLoadingAnalyze] = useState<boolean>(true);
@@ -14,6 +16,7 @@ export function AnalysisTemplate({ params }: AnalysisTemplateProps) {
   const [reviewsWordsAvg, setReviewsWordsAvg] = useState(0);
   const [reviews, setReviews] = useState<any[]>([]);
   const [wordCloud, setWordCloud] = useState<any>();
+  const router = useRouter();
 
   const [allKeywords, setAllKeywords] = useState<string[]>([]);
 
@@ -95,9 +98,26 @@ export function AnalysisTemplate({ params }: AnalysisTemplateProps) {
     },
   ];
 
+  const handleRemoveClick = async () => {
+    await fetch(`http://localhost:3000/api/analysis?id=${params.id}`, {
+      method: "DELETE",
+    }).then(() => {
+      router.replace("/history");
+    });
+  };
+
   return (
     <div className="px-16 py-12">
-      <Title title="Analysis" />
+      <div className="flex flex-row justify-between w-full">
+        <Title title="Analysis" />
+        <button
+          className="flex gap-x-5 border rounded-lg px-4 py-1.5 h-fit items-center border-[#FF0000]"
+          onClick={handleRemoveClick}
+        >
+          <Trash2 />
+          <p className="text-xl">Remove analysis</p>
+        </button>
+      </div>
       {isLoading && (
         <div className="flex justify-center">
           <Spin size="large" />

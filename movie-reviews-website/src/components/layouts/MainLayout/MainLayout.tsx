@@ -16,7 +16,7 @@ export function MainLayout({ children }: MainLayoutProps) {
                 sentimentalAnalysisModel: "logisticRegressionTFIDF",
                 sentimentalAnalysisModelName: "Logistic Regression TFIDF",
                 keywordsExtractionModel: "rake",
-                keywordsExtractionNumber: "10",
+                keywordsExtractionNumber: "20",
                 summarizationModel: "textrank",
                 summarizationRatio: "50",
                 csvFile: null,
