@@ -2,7 +2,7 @@
 
 Aplikacja webowa do analizy recencji filmów wykorzystująca przetwarzanie języka naturalnego.
 
-Aplikacja podejmuje problemy przetwarzania języka naturalnego takie jak określanie sentymentów recenzji, to znaczy ocena wydźwięku tekstu z danym prawdopodobieństwem klasyfikacji jako pozytywnej, wyszukiwanie słów kluczowych w recenzjach oraz wytwarzanie podsumowań tekstów poprzez wyodrębnienie zdań, które model uzna za najbardziej istotne w tekście. 
+Aplikacja podejmuje problemy przetwarzania języka naturalnego takie jak określanie sentymentów recenzji, to znaczy ocena wydźwięku tekstu z danym prawdopodobieństwem klasyfikacji jako pozytywnej, wyszukiwanie słów kluczowych w recenzjach oraz wytwarzanie podsumowań tekstów poprzez wyodrębnienie zdań, które model uzna za najbardziej istotne. 
 
 ## Wykorzystywane narzędzia i technologie
 
