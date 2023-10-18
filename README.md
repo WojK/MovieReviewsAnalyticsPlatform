@@ -44,6 +44,17 @@ Odnośnik do projektu w Figmie:
 
 https://www.figma.com/file/Su5ss1KjVuCVFDjBKwAw9a/MovieReviewsAnalyzer?type=design&node-id=0-1&mode=design&t=npnwUIPBOAwjo0UC-0
 
+
+### Wymagania funkcjonalne
+Aplikacja realizuje takie wymagania funkcjonalne jak:
+- Wczytywanie recenzji z dostarczonego arkusza excel
+- Określanie sentymentów dla zadanych recenzji
+- Określanie słów kluczowych dla recenzji
+- Filtrownie po słowach kluczowych
+- Tworzenie podsumowań recenzji
+- Przechowywanie historii analiz
+- Tworzenie rankingu filmów na podstawie analiz
+
 ## Widoki z aplikacji
 ### Strona główna:
 ![2023-10-18 17_04_44-Movie reviews analyzer](https://github.com/WojK/MovieReviewsAnalyticsPlatform/assets/106305960/32690150-8715-4bcc-8fac-11e283e75d30)
