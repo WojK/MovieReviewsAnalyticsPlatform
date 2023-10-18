@@ -12,7 +12,7 @@ Do analizy sentymetów zostały wykorzystane modele uczenia maszynowego takie ja
 - rekurencyjna sieć neuronowa LSTM
 - pretrenowany transformer BERT
 
-Słowa kluczowe:
+Wyszukiwanie słów kluczowych:
 - Rake
 - Yake
 - KeyBERT
