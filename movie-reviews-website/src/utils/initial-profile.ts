@@ -1,9 +1,8 @@
-import { PrismaClient } from "@prisma/client";
 import { currentUser } from "@clerk/nextjs";
+import prisma from "@/dbContext";
 
 export const initialProfile = async () => {
   const user = await currentUser();
-  const prisma = new PrismaClient();
 
   if (!user) {
     return null;

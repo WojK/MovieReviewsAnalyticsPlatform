@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { NextRequest } from "next/server";
-
-const prisma = new PrismaClient();
+import prisma from "@/dbContext";
 
 export async function POST(request: Request) {
   const body = await request.json();

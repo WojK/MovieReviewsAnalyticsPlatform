@@ -35,6 +35,11 @@ export function NavigationBar(props: NavigationBarProps) {
             <Link href="/history">History</Link>
           </li>
         )}
+        {isSignedIn && (
+          <li>
+            <Link href="/user-ranking">Movies</Link>
+          </li>
+        )}
         <li>
           <UserButton afterSignOutUrl="/" />
         </li>

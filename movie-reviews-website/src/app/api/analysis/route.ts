@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { NextRequest } from "next/server";
 
-const prisma = new PrismaClient();
+import prisma from "@/dbContext";
 
 export async function DELETE(request: NextRequest) {
   const id = request.nextUrl.searchParams.get("id");
@@ -50,4 +49,5 @@ export async function DELETE(request: NextRequest) {
     revalidatePath("/history");
     return new Response("Deleted", { status: 200 });
   }
+  return new Response("Not found", { status: 400 });
 }

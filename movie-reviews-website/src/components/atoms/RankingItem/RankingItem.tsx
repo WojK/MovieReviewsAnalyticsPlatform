@@ -2,8 +2,10 @@ import React from "react";
 import { RankingItemProps } from "./RankingItem.types";
 import { FileText, Smile, ThumbsDown, ThumbsUp } from "lucide-react";
 import clsx from "clsx";
+import Link from "next/link";
 
 export function RankingItem({
+  id,
   title,
   number,
   all,
@@ -12,7 +14,8 @@ export function RankingItem({
   ratio,
 }: RankingItemProps) {
   return (
-    <div
+    <Link
+      href={`/movie/${id}`}
       className={clsx(
         "flex flex-row rounded-xl py-3 px-8 items-center justify-between border-2 w-[70%]",
         number % 2 === 0 && "border-customBlue",
@@ -41,6 +44,6 @@ export function RankingItem({
           <p>{ratio}%</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

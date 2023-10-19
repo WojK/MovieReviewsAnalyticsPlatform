@@ -121,7 +121,6 @@ export function ResultsTemplate() {
       body: fd2,
     })
       .then((response) => {
-        console.log(response);
         return response.blob();
       })
       .then((blob) => {
@@ -130,7 +129,14 @@ export function ResultsTemplate() {
         setIsLoadingWordCloud(false);
       })
       .catch((e) => console.log(e));
-  }, []);
+  }, [
+    csvFile,
+    keywordsExtractionModel,
+    keywordsExtractionNumber,
+    sentimentalAnalysisModel,
+    summarizationModel,
+    summarizationRatio,
+  ]);
 
   useEffect(() => {
     if (isLoading === false && createdHistory === false) {

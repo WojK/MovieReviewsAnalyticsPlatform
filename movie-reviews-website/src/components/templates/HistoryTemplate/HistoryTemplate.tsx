@@ -2,12 +2,13 @@ import { Title } from "@/components/atoms/Title";
 import React from "react";
 import { HistoryElement } from "@/components/atoms/HistoryElement";
 import Link from "next/link";
-import { PrismaClient } from "@prisma/client";
 import { auth } from "@clerk/nextjs";
 import { BarChartHorizontalBig } from "lucide-react";
+import prisma from "@/dbContext";
+
+export const revalidate = 0;
 
 const getUserAnalysisHistory = async () => {
-  const prisma = new PrismaClient();
   const { userId } = auth();
 
   const userAnalysis = await prisma.moviesAnalysis.findMany({

@@ -1,6 +1,5 @@
 import io
 import os
-import uuid
 import pandas as pd
 from fastapi import FastAPI, UploadFile, Form
 from features.keywordsExtraction.keywords_yake import get_keywords_yake
@@ -24,6 +23,8 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import Annotated
 from fastapi.middleware.cors import CORSMiddleware
+from nltk.stem import PorterStemmer
+
 
 
 class KeywordsExtractionBody(BaseModel):
@@ -182,6 +183,7 @@ def file_analyze(file: Annotated[UploadFile, Form()],
     sentiments = analyze_sentiment_file(df_reviews, sentiment_analysis_method)
     pos, neg = count_reviews_positive_and_negative(sentiments)
     keywords = extract_keywords_file(df_reviews, keywords_extraction_method, n_keywords)
+
     all_keywords = get_all_keywords(keywords)
     return {"movieTitles": titles, "wordsAvg": words_avg, "summarizations": summarizations, "sentiments": sentiments,
             "keywords": keywords, "allKeywords": all_keywords, "reviewsPos": pos, "reviewsNeg": neg, "reviews": reviews}

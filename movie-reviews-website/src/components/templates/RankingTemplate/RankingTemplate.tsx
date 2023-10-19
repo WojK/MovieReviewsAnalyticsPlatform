@@ -1,11 +1,9 @@
 import React from "react";
-import { RankingTemplateProps } from "./RankingTemplate.types";
 import { RankingItem } from "@/components/atoms/RankingItem";
-import { PrismaClient } from "@prisma/client";
 import { auth } from "@clerk/nextjs";
+import prisma from "@/dbContext";
 
 const getRankingItems = async () => {
-  const prisma = new PrismaClient();
   const { userId } = auth();
 
   if (userId !== null) {
@@ -35,6 +33,7 @@ export async function RankingTemplate() {
   const ranking = await getRankingItems();
 
   const rankItems: {
+    id: number;
     title: string;
     positive: number;
     negative: number;
@@ -45,6 +44,7 @@ export async function RankingTemplate() {
   const movies = new Map<
     number,
     {
+      id: number;
       title: string;
       positive: number;
       negative: number;
@@ -55,12 +55,14 @@ export async function RankingTemplate() {
     if (!movies.has(i.movie.id)) {
       if (i.sentiment === "Positive") {
         movies.set(i.movie.id, {
+          id: i.movie.id,
           title: i.movie.title,
           positive: 1,
           negative: 0,
         });
       } else {
         movies.set(i.movie.id, {
+          id: i.movie.id,
           title: i.movie.title,
           positive: 0,
           negative: 1,
@@ -82,6 +84,7 @@ export async function RankingTemplate() {
 
   movies.forEach((m) => {
     rankItems.push({
+      id: m.id,
       title: m.title,
       all: m.positive + m.negative,
       positive: m.positive,
@@ -96,13 +99,17 @@ export async function RankingTemplate() {
 
   return (
     <div className="py-12 px-14">
-      <h1 className="text-customBlue text-3xl font-bold mb-2">Ranking</h1>
-      <p className="opacity-60 mb-16">Based on your movie reviews</p>
+      <h1 className="text-customBlue text-3xl font-bold mb-2">Movies</h1>
+      <p className="opacity-60">Based on your movie reviews</p>
+      <p className="opacity-60 mb-16">
+        Sorted descending by positive to all reviews ratio
+      </p>
 
       <div className="flex flex-col gap-3 items-center w-full">
         {rankItems.map((movie, index) => {
           return (
             <RankingItem
+              id={movie.id}
               key={movie.title}
               title={movie.title}
               number={index + 1}

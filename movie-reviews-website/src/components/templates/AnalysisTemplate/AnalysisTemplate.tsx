@@ -102,6 +102,7 @@ export function AnalysisTemplate({ params }: AnalysisTemplateProps) {
     await fetch(`http://localhost:3000/api/analysis?id=${params.id}`, {
       method: "DELETE",
     }).then(() => {
+      router.refresh();
       router.replace("/history");
     });
   };

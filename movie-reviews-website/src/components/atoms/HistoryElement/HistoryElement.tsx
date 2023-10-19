@@ -15,7 +15,7 @@ export function HistoryElement({
   return (
     <Link
       href={`/analysis/${id}`}
-      className="w-[320px] min-h-[320px] p-8 border border-customBlue shadow-lg rounded-xl hover:scale-105 duration-300"
+      className="min-w-[320px] min-h-[320px] p-8 border border-customBlue shadow-lg rounded-xl hover:scale-105 duration-300"
     >
       <div className="flex items-center flex-col">
         <h3 className="text-xl text-customBlue font-medium">{title}</h3>
