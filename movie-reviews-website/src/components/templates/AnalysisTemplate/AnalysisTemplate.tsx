@@ -6,6 +6,7 @@ import { OverviewTab } from "@/components/molecules/OverviewTab";
 import { DetailsTab } from "@/components/molecules/DetailsTab";
 import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 export function AnalysisTemplate({ params }: AnalysisTemplateProps) {
   const [isLoadingAnalyze, setIsLoadingAnalyze] = useState<boolean>(true);
@@ -111,13 +112,15 @@ export function AnalysisTemplate({ params }: AnalysisTemplateProps) {
     <div className="px-16 py-12">
       <div className="flex flex-row justify-between w-full">
         <Title title="Analysis" />
-        <button
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.9 }}
           className="flex gap-x-5 border rounded-lg px-4 py-1.5 h-fit items-center border-[#FF0000]"
           onClick={handleRemoveClick}
         >
           <Trash2 />
           <p className="text-xl">Remove analysis</p>
-        </button>
+        </motion.button>
       </div>
       {isLoading && (
         <div className="flex justify-center">

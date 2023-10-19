@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { DetailsTabProps } from "./DetailsTab.types";
 import { Modal, Select, SelectProps, Table, Tag } from "antd";
 import Column from "antd/es/table/Column";
+import { motion } from "framer-motion";
 
 const sentimentOptions: SelectProps["options"] = [
   { value: "all", label: "All" },
@@ -173,12 +174,14 @@ export function DetailsTab({ results, allKeywords }: DetailsTabProps) {
                 fragmentToDisplay = words.slice(0, 120).join(" ") + "...";
               }
               return (
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={handleOnReviewClick(review)}
                   className="text-left max-w-[550px]"
                 >
                   {fragmentToDisplay}
-                </button>
+                </motion.button>
               );
             }}
           />
@@ -235,12 +238,14 @@ export function DetailsTab({ results, allKeywords }: DetailsTabProps) {
             dataIndex="summarization"
             render={(summarization) => {
               return (
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.9 }}
                   className="border rounded-lg px-2.5 py-1.5"
                   onClick={handleCurrentSummarization(summarization)}
                 >
                   Summarization
-                </button>
+                </motion.button>
               );
             }}
           />
@@ -251,13 +256,15 @@ export function DetailsTab({ results, allKeywords }: DetailsTabProps) {
         open={isSummarizationModalOpen}
         onCancel={handleSummarizationModalCancel}
         footer={[
-          <button
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             key="okBtn"
             onClick={handleOkSummarizationModalClick}
             className="px-4 py-2 border bg-customBlue rounded-lg text-[#FFFF] opacity-80"
           >
             Ok
-          </button>,
+          </motion.button>,
         ]}
       >
         <div className="mt-6 mb-10">{currentSummarization}</div>
@@ -267,13 +274,15 @@ export function DetailsTab({ results, allKeywords }: DetailsTabProps) {
         open={isReviewModalOpen}
         onCancel={handleReviewModalCancel}
         footer={[
-          <button
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             key="okBtn"
             onClick={handleReviewModalCancel}
             className="px-4 py-2 border bg-customBlue rounded-lg text-[#FFFF] opacity-80"
           >
             Ok
-          </button>,
+          </motion.button>,
         ]}
       >
         <div className="mt-6 mb-10">{currentReview}</div>

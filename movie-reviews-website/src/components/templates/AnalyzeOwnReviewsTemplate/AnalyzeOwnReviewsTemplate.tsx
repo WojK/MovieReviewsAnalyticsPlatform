@@ -7,6 +7,7 @@ import {
   useAppContextActions,
   useAppContextState,
 } from "@/contexts/AppContext";
+import { motion } from "framer-motion";
 
 export function AnalyzeOwnReviewsTemplate() {
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -97,20 +98,22 @@ export function AnalyzeOwnReviewsTemplate() {
           </div>
         </div>
         <div className="flex flex-col items-center mb-5 gap-y-6 mt-8">
-          <label
-            htmlFor="file-upload"
-            className="cursor-pointer border flex flex-col items-center gap-y-0.5 justify-center border-dashed rounded-full w-[110px] h-[110px]"
-          >
-            <Plus size={10} />
-            <p className="text-center">Click to Upload</p>
-          </label>
-          <input
-            type="file"
-            id="file-upload"
-            className="hidden"
-            accept=".xlsx"
-            onChange={uploadFileHandler}
-          ></input>
+          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }}>
+            <label
+              htmlFor="file-upload"
+              className="cursor-pointer border flex flex-col items-center gap-y-0.5 justify-center border-dashed rounded-full w-[110px] h-[110px]"
+            >
+              <Plus size={10} />
+              <p className="text-center">Click to Upload</p>
+            </label>
+            <input
+              type="file"
+              id="file-upload"
+              className="hidden"
+              accept=".xlsx"
+              onChange={uploadFileHandler}
+            ></input>
+          </motion.button>
           <p className="text-customBlue text-lg">{fileName}</p>
         </div>
         <div>
@@ -139,7 +142,7 @@ export function AnalyzeOwnReviewsTemplate() {
                     label: "Naive Bayes TFIDF",
                   },
                   { value: "bert", label: "BERT" },
-                  { value: "lstm", label: "LSTM" },
+                  { value: "lstm", label: "LSTM", disabled: true },
                 ]}
               />
             </div>
@@ -210,12 +213,14 @@ export function AnalyzeOwnReviewsTemplate() {
               </div>
             </div>
             <div className="w-full flex justify-center mt-5">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 className="w-[200px] py-2 border border-customBlue rounded-2xl"
                 onClick={handleAnalyzeClick}
               >
                 Analyze
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>

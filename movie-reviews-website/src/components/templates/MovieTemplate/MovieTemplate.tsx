@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MovieTemplateProps } from "./MovieTemplate.types";
 import { Modal, Table, Tag } from "antd";
 import Column from "antd/es/table/Column";
+import { motion } from "framer-motion";
 
 type DataType = {
   key: string;
@@ -93,12 +94,14 @@ export function MovieTemplate({ params }: MovieTemplateProps) {
                 fragmentToDisplay = words.slice(0, 120).join(" ") + "...";
               }
               return (
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={handleOnReviewClick(review)}
                   className="text-left max-w-[650px]"
                 >
                   {fragmentToDisplay}
-                </button>
+                </motion.button>
               );
             }}
           />
@@ -139,12 +142,14 @@ export function MovieTemplate({ params }: MovieTemplateProps) {
             dataIndex="summarization"
             render={(summarization) => {
               return (
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.9 }}
                   className="border rounded-lg px-2.5 py-1.5"
                   onClick={handleCurrentSummarization(summarization)}
                 >
                   Summarization
-                </button>
+                </motion.button>
               );
             }}
           />

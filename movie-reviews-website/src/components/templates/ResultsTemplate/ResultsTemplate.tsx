@@ -85,54 +85,58 @@ export function ResultsTemplate() {
   ];
 
   useEffect(() => {
-    setIsLoadingAnalyze(true);
-    setIsLoadingWordCloud(true);
-    const fd = new FormData();
+    if (reviews.length === 0) {
+      setIsLoadingAnalyze(true);
+      setIsLoadingWordCloud(true);
 
-    fd.append("file", csvFile);
-    fd.append("summarization_method", summarizationModel);
-    fd.append("summarization_ratio", summarizationRatio);
-    fd.append("keywords_extraction_method", keywordsExtractionModel);
-    fd.append("n_keywords", keywordsExtractionNumber);
-    fd.append("sentiment_analysis_method", sentimentalAnalysisModel);
+      const fd = new FormData();
 
-    fetch(`${api}/analyze-file`, { method: "POST", body: fd })
-      .then((response) => response.json())
-      .then((json) => {
-        setReviewsNeg(json.reviewsNeg);
-        setReviewsPos(json.reviewsPos);
-        setAllKeywords(json.allKeywords);
-        setReviewsKeywords(json.keywords);
-        setReviewsSentiments(json.sentiments);
-        setReviewsSummarizations(json.summarizations);
-        setReviewsWordsAvg(json.wordsAvg);
-        setTitles(json.movieTitles);
-        setReviews(json.reviews || []);
-        setIsLoadingAnalyze(false);
-      })
-      .catch((e) => console.log(e));
+      fd.append("file", csvFile);
+      fd.append("summarization_method", summarizationModel);
+      fd.append("summarization_ratio", summarizationRatio);
+      fd.append("keywords_extraction_method", keywordsExtractionModel);
+      fd.append("n_keywords", keywordsExtractionNumber);
+      fd.append("sentiment_analysis_method", sentimentalAnalysisModel);
 
-    const fd2 = new FormData();
-    fd2.append("file", csvFile);
-    const wcName = crypto.randomUUID();
-    setWordsCloudName(wcName);
-    fetch(`${api}/word-cloud-file/${wcName}`, {
-      method: "POST",
-      body: fd2,
-    })
-      .then((response) => {
-        return response.blob();
+      fetch(`${api}/analyze-file`, { method: "POST", body: fd })
+        .then((response) => response.json())
+        .then((json) => {
+          setReviewsNeg(json.reviewsNeg);
+          setReviewsPos(json.reviewsPos);
+          setAllKeywords(json.allKeywords);
+          setReviewsKeywords(json.keywords);
+          setReviewsSentiments(json.sentiments);
+          setReviewsSummarizations(json.summarizations);
+          setReviewsWordsAvg(json.wordsAvg);
+          setTitles(json.movieTitles);
+          setReviews(json.reviews || []);
+          setIsLoadingAnalyze(false);
+        })
+        .catch((e) => console.log(e));
+
+      const fd2 = new FormData();
+      fd2.append("file", csvFile);
+      const wcName = crypto.randomUUID();
+      setWordsCloudName(wcName);
+      fetch(`${api}/word-cloud-file/${wcName}`, {
+        method: "POST",
+        body: fd2,
       })
-      .then((blob) => {
-        const objectURL = URL.createObjectURL(blob);
-        setWordCloud(objectURL);
-        setIsLoadingWordCloud(false);
-      })
-      .catch((e) => console.log(e));
+        .then((response) => {
+          return response.blob();
+        })
+        .then((blob) => {
+          const objectURL = URL.createObjectURL(blob);
+          setWordCloud(objectURL);
+          setIsLoadingWordCloud(false);
+        })
+        .catch((e) => console.log(e));
+    }
   }, [
     csvFile,
     keywordsExtractionModel,
     keywordsExtractionNumber,
+    reviews.length,
     sentimentalAnalysisModel,
     summarizationModel,
     summarizationRatio,
